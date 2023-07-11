@@ -1,9 +1,15 @@
 import java.util.Scanner;
 
 public class Car {
+  String carModel;
+  double mpgRate;
+  double gasTankCap;
+  double gasTank;
 
     public Car(String model, double mpg, double gasTankCapacity) {
-
+      carModel = model;
+      mpgRate = mpg;
+      gasTankCap = gasTankCapacity;
     }
 
     public static void main(String[] args) {
@@ -43,22 +49,41 @@ public class Car {
 
     public void drive(double distance) {
         // drive for distance (in miles), and update gas tank level accordingly (using mpg)
+      gasTank = gasTank - (distance/mpgRate);
+      while (gasTank < 0){
+        System.out.println("You do not have enough fuel");
+      }
+      System.out.println("You drive for " + distance + " miles.");
     }
 
     public void refuel(double gasAmount) {
         // Add gasAmount of gas to the gas tank
+      if (gasTank < gasTankCap){
+        gasTank = gasTank + gasAmount;
+        if (gasTank >= gasTankCap){
+          gasTank = gasTankCap;
+        }
+      System.out.println("You added " + gasAmount + " gallons of gas and now have " + gasTank + " gallons in your tank.");
+      } else {
+        System.out.println("Your tank is already full!");
+      }
+      
     }
 
     public double getGasRemaining() {
         // Return the number of gallons of gas currently in the gas tank
+      return gasTank;
     }
 
     public double getRange() {
         // Return the estimated amount of miles the car can drive based on current gas remaining and MPG (provided to constructor)
+      double range = gasTank * mpgRate;
+      return range;
     }
 
     public String toString() {
         // Return a string representation of the car's current state.
+      return "This car is a(n) " + carModel + ". It's got " + mpgRate + "mpg and " + gasTank + " gas tank capacity.";
         // Be sure to include range, model, and gas level.
     }
 }
